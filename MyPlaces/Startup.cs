@@ -34,7 +34,8 @@ namespace MyPlaces
                 o.UseSqlServer(connectionString));
 
             services.AddScoped<IPlaceRepository, PlaceRepository>();
-            
+           
+           
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -51,7 +52,11 @@ namespace MyPlaces
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyPlaces v1"));
             }
-
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+            );
             app.UseHttpsRedirection();
 
             app.UseRouting();
