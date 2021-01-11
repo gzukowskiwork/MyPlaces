@@ -12,5 +12,6 @@ namespace MyPlaces.Model.Repository
         void Create(Place place);
         void Update(Place place);
         void Delete(Place place);
+        void Save();
     }
 }

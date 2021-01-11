@@ -39,5 +39,10 @@ namespace MyPlaces.Model.Repository
         {
             _applicationContext.Places.Update(place);
         }
+
+        public void Save()
+        {
+            _applicationContext.SaveChangesAsync();
+        }
     }
 }
