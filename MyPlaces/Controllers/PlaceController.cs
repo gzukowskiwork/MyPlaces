@@ -69,11 +69,11 @@ namespace MyPlaces.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePlace([FromBody] PlaceWithoutId place)
+        public async Task<IActionResult> CreatePlace([FromBody] PlaceWithoutId place)
         {
             try
             {
-                return createPlace(place);
+                return await createPlace(place);
             }
             catch (Exception e)
             {
@@ -81,7 +81,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private IActionResult createPlace(PlaceWithoutId place)
+        private async Task<IActionResult> createPlace(PlaceWithoutId place)
         {
             if (place == null)
             {
@@ -95,7 +95,7 @@ namespace MyPlaces.Controllers
             var placeEntity = _mapper.Map<Place>(place);
 
             _placeRepository.Create(placeEntity);
-            _placeRepository.Save();
+            await _placeRepository.Save();
 
             return CreatedAtAction("GetPlaceDetails", new { id = placeEntity.Id }, place);
         }
@@ -134,7 +134,7 @@ namespace MyPlaces.Controllers
             _mapper.Map(place, placeToUpdate);
 
             _placeRepository.Update(placeToUpdate);
-            _placeRepository.Save();
+            await _placeRepository.Save();
 
             return NoContent();
         }
@@ -161,7 +161,7 @@ namespace MyPlaces.Controllers
             }
 
             _placeRepository.Delete(place);
-            _placeRepository.Save();
+            await _placeRepository.Save();
 
             return NoContent();
         }

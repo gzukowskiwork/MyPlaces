@@ -15,16 +15,6 @@ namespace MyPlaces.Model.Repository
             _applicationContext = applicationContext;
         }
 
-        public void Create(Place place)
-        {
-            _applicationContext.Places.Add(place);
-        }
-
-        public void Delete(Place place)
-        {
-            _applicationContext.Places.Remove(place);
-        }
-
         public async Task<IEnumerable<Place>> GetAllPlaces()
         {
             return await _applicationContext.Places.ToListAsync();
@@ -35,14 +25,24 @@ namespace MyPlaces.Model.Repository
             return await _applicationContext.Places.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
 
+        public void Create(Place place)
+        {
+            _applicationContext.Places.Add(place);
+        }
+
         public void Update(Place place)
         {
             _applicationContext.Places.Update(place);
         }
 
-        public void Save()
+        public void Delete(Place place)
         {
-            _applicationContext.SaveChangesAsync();
+            _applicationContext.Places.Remove(place);
+        }
+
+        public Task Save()
+        {
+            return _applicationContext.SaveChangesAsync();
         }
     }
 }
