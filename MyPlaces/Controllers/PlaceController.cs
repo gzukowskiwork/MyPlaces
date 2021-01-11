@@ -100,40 +100,70 @@ namespace MyPlaces.Controllers
             return CreatedAtAction("GetPlaceDetails", new { id = placeEntity.Id }, place);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlace(int id, [FromBody] PlaceWithoutId place)
         {
             try
             {
-                if (place == null)
-                {
-                    return BadRequest("Place cannot be null");
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Model is invalid");
-                }
-
-                Place placeToUpdate = await _placeRepository.GetPlaceById(id);
-                
-                if (placeToUpdate == null)
-                {
-                    return NotFound();
-                }
-
-                _mapper.Map(place, placeToUpdate);
-
-                _placeRepository.Update(placeToUpdate);
-                _placeRepository.Save();
-
-                return NoContent();
+                return await updatePlace(id, place);
             }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
+        }
 
+        private async Task<IActionResult> updatePlace(int id, PlaceWithoutId place)
+        {
+            if (place == null)
+            {
+                return BadRequest("Place cannot be null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Model is invalid");
+            }
 
+            Place placeToUpdate = await _placeRepository.GetPlaceById(id);
+
+            if (placeToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(place, placeToUpdate);
+
+            _placeRepository.Update(placeToUpdate);
+            _placeRepository.Save();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                return await delete(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        private async Task<IActionResult> delete(int id)
+        {
+            var place = await _placeRepository.GetPlaceById(id);
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            _placeRepository.Delete(place);
+            _placeRepository.Save();
+
+            return NoContent();
         }
     }
 }
