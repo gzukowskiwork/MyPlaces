@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MyPlaces.Model;
+using MyPlaces.Model.DTO;
 using MyPlaces.Model.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,9 +16,11 @@ namespace MyPlaces.Controllers
     {
 
         private readonly IPlaceRepository _placeRepository;
-        public PlaceController(IPlaceRepository placeRepository)
+        private readonly IMapper _mapper;
+        public PlaceController(IPlaceRepository placeRepository, IMapper mapper)
         {
             _placeRepository = placeRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -26,6 +30,7 @@ namespace MyPlaces.Controllers
 
             if (places != null)
             {
+                //var placeResult = _mapper.Map<PlaceWithoutId>(places);
                 return Ok(places);
             }
             else
@@ -40,7 +45,7 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                return await GetPlaceByID(id);
+                return await getPlaceByID(id);
             }
             catch (Exception e)
             {
@@ -48,7 +53,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private async Task<IActionResult> GetPlaceByID(int id)
+        private async Task<IActionResult> getPlaceByID(int id)
         {
             var place = await _placeRepository.GetPlaceById(id);
 
@@ -58,33 +63,76 @@ namespace MyPlaces.Controllers
             }
             else
             {
-                return Ok(place);
+                var placeResult = _mapper.Map<PlaceWithoutId>(place);
+                return Ok(placeResult);
             }
         }
 
         [HttpPost]
-        public IActionResult CreatePlace([FromBody] Place place)
+        public IActionResult CreatePlace([FromBody] PlaceWithoutId place)
+        {
+            try
+            {
+                return createPlace(place);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        private IActionResult createPlace(PlaceWithoutId place)
+        {
+            if (place == null)
+            {
+                return BadRequest("Place cannot be null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Model is invalid");
+            }
+
+            var placeEntity = _mapper.Map<Place>(place);
+
+            _placeRepository.Create(placeEntity);
+            _placeRepository.Save();
+
+            return CreatedAtAction("GetPlaceDetails", new { id = placeEntity.Id }, place);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePlace(int id, [FromBody] PlaceWithoutId place)
         {
             try
             {
                 if (place == null)
                 {
-                    return BadRequest("Owner cannot be null");
+                    return BadRequest("Place cannot be null");
                 }
                 if (!ModelState.IsValid)
                 {
                     return BadRequest("Model is invalid");
                 }
 
-                _placeRepository.Create(place);
+                Place placeToUpdate = await _placeRepository.GetPlaceById(id);
+                
+                if (placeToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(place, placeToUpdate);
+
+                _placeRepository.Update(placeToUpdate);
                 _placeRepository.Save();
 
-                return CreatedAtAction("GetPlaceDetails", new { id = place.Id }, place);
+                return NoContent();
             }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
+
 
         }
     }

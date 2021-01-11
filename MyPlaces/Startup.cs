@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyPlaces.Model;
 using MyPlaces.Model.Repository;
+using AutoMapper;
 
 namespace MyPlaces
 {
@@ -34,9 +35,10 @@ namespace MyPlaces
                 o.UseSqlServer(connectionString));
 
             services.AddScoped<IPlaceRepository, PlaceRepository>();
-           
-           
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
+          
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyPlaces", Version = "v1" });
