@@ -40,7 +40,7 @@ namespace MyPlaces.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/place")]
+        [Route("{id}")]
         public async Task<IActionResult> GetPlaceDetails(int id)
         {
             try

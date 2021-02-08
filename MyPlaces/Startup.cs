@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using MyPlaces.Model;
 using MyPlaces.Model.Repository;
 using AutoMapper;
+using Serilog;
+
 
 namespace MyPlaces
 {
@@ -52,13 +54,17 @@ namespace MyPlaces
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyPlaces v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyPlaces v1");
+                    c.EnableValidator();
+                });
             }
             app.UseCors(x => x
                .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader()
             );
+            app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
 
             app.UseRouting();
