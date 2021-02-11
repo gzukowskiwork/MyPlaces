@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,5 +20,10 @@ namespace MyPlaces.Model
         [Required]
         public double Latidude { get; set; }
         public string PathToImage { get; set; }
+
+        [ForeignKey(nameof(ApplicationUser))]
+        public string UserId { get; set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

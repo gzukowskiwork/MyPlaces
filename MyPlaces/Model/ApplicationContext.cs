@@ -16,6 +16,16 @@ namespace MyPlaces.Model
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new PlaceConfiguration());
+            
+            ConfigureRealtions(modelBuilder);
+        }
+
+        private static void ConfigureRealtions(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationUser>()
+                            .HasMany(place => place.Places)
+                            .WithOne(a => a.ApplicationUser)
+                            .HasForeignKey(place => place.UserId);
         }
     }
 }

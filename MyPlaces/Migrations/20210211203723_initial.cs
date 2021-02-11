@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyPlaces.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,8 @@ namespace MyPlaces.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlaceId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -44,23 +46,6 @@ namespace MyPlaces.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Places",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Longtidude = table.Column<double>(type: "float", nullable: false),
-                    Latidude = table.Column<double>(type: "float", nullable: false),
-                    PathToImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Places", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,15 +154,39 @@ namespace MyPlaces.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Places",
-                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage" },
-                values: new object[] { 1, "Spodziewałem się czegoś więcej", 41.890239999999999, 12.492369999999999, "Koloseum", "" });
+            migrationBuilder.CreateTable(
+                name: "Places",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Longtidude = table.Column<double>(type: "float", nullable: false),
+                    Latidude = table.Column<double>(type: "float", nullable: false),
+                    PathToImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Places", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Places_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "Places",
-                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage" },
-                values: new object[] { 2, "Urokliwe miejsce", 38.895330000000001, 8.8851099999999992, "Torre di Chia", "" });
+                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage", "UserId" },
+                values: new object[] { 1, "Spodziewałem się czegoś więcej", 41.890239999999999, 12.492369999999999, "Koloseum", "", null });
+
+            migrationBuilder.InsertData(
+                table: "Places",
+                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage", "UserId" },
+                values: new object[] { 2, "Urokliwe miejsce", 38.895330000000001, 8.8851099999999992, "Torre di Chia", "", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -217,6 +226,11 @@ namespace MyPlaces.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Places_UserId",
+                table: "Places",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -39,7 +39,7 @@ namespace MyPlaces
             services.AddDbContext<ApplicationContext>(o =>
                 o.UseSqlServer(connectionString));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(o =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
             {
                 o.Password.RequiredLength = 8;
             }).AddEntityFrameworkStores<ApplicationContext>()
@@ -63,6 +63,8 @@ namespace MyPlaces
             });
 
             services.AddScoped<IPlaceRepository, PlaceRepository>();
+            // TODO move Models to Entities project
+            // services.AddTransient<IIdentityService, IdentityService>();
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
