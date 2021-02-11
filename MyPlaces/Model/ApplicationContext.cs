@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MyPlaces.Configuration;
 using System;
 using System.Threading.Tasks;
 
 namespace MyPlaces.Model
 {
-    public class ApplicationContext: DbContext
+    public class ApplicationContext: IdentityDbContext
     {
         public DbSet<Place> Places { get; set; }
         
@@ -13,12 +14,8 @@ namespace MyPlaces.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new PlaceConfiguration());
-        }
-
-        internal Task ToListAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }

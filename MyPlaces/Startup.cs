@@ -16,7 +16,10 @@ using MyPlaces.Model;
 using MyPlaces.Model.Repository;
 using AutoMapper;
 using Serilog;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MyPlaces
 {
@@ -35,6 +38,29 @@ namespace MyPlaces
             string connectionString = Configuration["connection:connectionString"];
             services.AddDbContext<ApplicationContext>(o =>
                 o.UseSqlServer(connectionString));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(o =>
+            {
+                o.Password.RequiredLength = 8;
+            }).AddEntityFrameworkStores<ApplicationContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o => {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = "myValidAudience",
+                    ValidIssuer = "myValidAudience",
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My symetric secret")),
+                    ValidateIssuerSigningKey = true
+                };
+            });
 
             services.AddScoped<IPlaceRepository, PlaceRepository>();
             services.AddAutoMapper(typeof(Startup));
