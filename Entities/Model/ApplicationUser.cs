@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyPlaces.Model
+namespace Entities.Model
 {
     public class ApplicationUser: IdentityUser
     {

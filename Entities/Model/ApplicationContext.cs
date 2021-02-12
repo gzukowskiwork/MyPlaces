@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyPlaces.Configuration;
+using Entities.Configuration;
 using System;
 using System.Threading.Tasks;
 
-namespace MyPlaces.Model
+namespace Entities.Model
 {
     public class ApplicationContext: IdentityDbContext
     {

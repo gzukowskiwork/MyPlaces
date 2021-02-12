@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyPlaces.Model;
+using Entities.Model;
 
-namespace MyPlaces.Configuration
+namespace Entities.Configuration
 {
     public class PlaceConfiguration: IEntityTypeConfiguration<Place>
     {

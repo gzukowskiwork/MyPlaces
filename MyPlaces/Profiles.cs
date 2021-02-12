@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using MyPlaces.Model;
-using MyPlaces.Model.DTO;
+using Entities.Model;
+using Entities.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

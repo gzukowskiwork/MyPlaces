@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyPlaces.Model.DTO
+namespace Entities.Model.DTO
 {
     public class PlaceWithoutId
     {

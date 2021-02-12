@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MyPlaces.Model;
-using MyPlaces.Model.DTO;
-using MyPlaces.Model.Repository;
+using Entities.Model;
+using Entities.Model.DTO;
+using Entities.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
