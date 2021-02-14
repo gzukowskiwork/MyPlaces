@@ -11,5 +11,6 @@ namespace Identity.Service
     public interface IIdentityService
     {
         Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest registrationRequest);
+        Task<RegistrationResponse> LoginAsync(LoginRequest loginRequest);
     }
 }

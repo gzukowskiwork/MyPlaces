@@ -21,7 +21,6 @@ namespace MyPlaces.Controllers
         }
 
         [HttpPost("Register")]
-        
         public async Task<IActionResult> RegisterAsync([FromBody]RegistrationRequest registrationRequest)
         {
             if (!ModelState.IsValid)
@@ -33,6 +32,21 @@ namespace MyPlaces.Controllers
             if(result.Success)
                 return StatusCode(200);
 
+            return BadRequest();
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> LoginAsync([FromBody]LoginRequest loginRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = await _identityService.LoginAsync(loginRequest);
+
+            if (result.Success)
+                return StatusCode(200, result.Token);
             return BadRequest();
         }
     }

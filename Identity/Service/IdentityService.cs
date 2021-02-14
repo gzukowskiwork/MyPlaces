@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Requests;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Service
 {
@@ -14,13 +18,16 @@ namespace Identity.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationContext _applicationContext;
+        private readonly IConfiguration _configuration;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, ApplicationContext applicationContext)
+        public IdentityService(UserManager<ApplicationUser> userManager, ApplicationContext applicationContext, IConfiguration configuration)
         {
             _userManager = userManager;
             _applicationContext = applicationContext;
+            _configuration = configuration;
         }
 
+    
         public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest registrationRequest)
         {
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(registrationRequest.Email);
@@ -29,7 +36,7 @@ namespace Identity.Service
                 return new RegistrationResponse
                 {
                     Success = false,
-                    Errors = new[] { string.Format($"Users with email {registrationRequest.Email} exists", registrationRequest.Email) }
+                    Errors = new[] { $"Users with email {registrationRequest.Email} already exists"  }
                 };
             }
 
@@ -56,6 +63,54 @@ namespace Identity.Service
             };
         }
 
-     
+        public async Task<RegistrationResponse> LoginAsync(LoginRequest loginRequest)
+        {
+            ApplicationUser user = await _userManager.FindByEmailAsync(loginRequest.Email);
+            if(user == null)
+            {
+                return new RegistrationResponse
+                {
+                    Errors = new[] { $"User with email {loginRequest.Email} does not exist" },
+                    Success = false
+                };
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
+            
+            if (!result)
+            {
+                return new RegistrationResponse
+                {
+                    Errors = new[] {"Invalid password"},
+                    Success = false
+                };
+            }
+
+            var claims = new[]
+            {
+                new Claim("Email", loginRequest.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authenticate:key"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Authenticate:Issuer"],
+                audience: _configuration["Authenticate:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(2),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+
+            string writeToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return new RegistrationResponse
+            {
+                Success = true,
+                Token = writeToken
+            };
+        }
+
+
+
     }
 }
