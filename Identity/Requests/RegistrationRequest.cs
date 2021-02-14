@@ -17,5 +17,10 @@ namespace Identity.Requests
         [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage ="Password must be at least eight digits long")]
         public string Password { get; set; }
+
+        [Required]
+        //[DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage ="Confirm password not match")]
+        public string ConfirmPassword { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Identity.Response;
+﻿using Identity.Requests;
+using Identity.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Identity.Service
 {
     public interface IIdentityService
     {
-        Task<RegistrationResponse> RegisterUserAsync(string email, string password);
+        Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest registrationRequest);
     }
 }

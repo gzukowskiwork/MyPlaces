@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Requests;
 
 namespace Identity.Service
 {
@@ -20,25 +21,25 @@ namespace Identity.Service
             _applicationContext = applicationContext;
         }
 
-        public async Task<RegistrationResponse> RegisterUserAsync(string email, string password)
+        public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest registrationRequest)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(registrationRequest.Email);
             if (applicationUser != null)
             {
                 return new RegistrationResponse
                 {
                     Success = false,
-                    Errors = new[] { string.Format($"Users with email {email} exists", email) }
+                    Errors = new[] { string.Format($"Users with email {registrationRequest.Email} exists", registrationRequest.Email) }
                 };
             }
 
             ApplicationUser newUser = new ApplicationUser
             {
-                Email = email,
-                UserName = email
+                Email = registrationRequest.Email,
+                UserName = registrationRequest.Email
             };
 
-            IdentityResult createdUser = await _userManager.CreateAsync(newUser, password);
+            IdentityResult createdUser = await _userManager.CreateAsync(newUser, registrationRequest.Password);
 
             if (!createdUser.Succeeded)
             {
@@ -47,7 +48,14 @@ namespace Identity.Service
                     Errors = createdUser.Errors.Select(e=>e.Description)
                 };
             }
-            throw new NotImplementedException();
+
+            return new RegistrationResponse
+            {
+                Success = true,
+                Token = ""
+            };
         }
+
+     
     }
 }
