@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Identity\Identity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Installers\Extensions\" />
+  </ItemGroup>
+
 </Project>

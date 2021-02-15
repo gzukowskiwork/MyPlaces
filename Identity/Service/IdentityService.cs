@@ -88,8 +88,7 @@ namespace Identity.Service
 
             var claims = new[]
             {
-                new Claim("Email", loginRequest.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("Email", loginRequest.Email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authenticate:key"]));

@@ -24,7 +24,7 @@ namespace MyPlaces.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllPLaces()
         {
