@@ -24,7 +24,7 @@ namespace MyPlaces.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        
         [HttpGet]
         public async Task<IActionResult> GetAllPLaces()
         {
@@ -41,7 +41,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetPlaceDetails(int id)

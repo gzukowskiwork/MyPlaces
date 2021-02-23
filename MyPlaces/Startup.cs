@@ -32,7 +32,7 @@ namespace MyPlaces
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.ConfigureCors();
             services.DbConnection(Configuration);
 
             services.AddIdentity();
@@ -64,7 +64,7 @@ namespace MyPlaces
                     c.EnableValidator();
                 });
             }
-            app.UseCors("CorsePolicy");
+            app.UseCors("CorsPolicy");
             app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
 
