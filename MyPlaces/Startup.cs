@@ -48,6 +48,8 @@ namespace MyPlaces
 
             services.AddSwaggerGen();
 
+            services.EmailConfiguration(Configuration);
+
             //services.InstallServices(Configuration);
         }
 

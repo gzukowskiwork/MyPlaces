@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmailService;
 using Entities.Model;
 using Entities.Model.Repository;
 using Identity.Service;
@@ -117,6 +118,13 @@ namespace MyPlaces.Installers.ServicesExtensions
                     new List<string>()
                 }});
             });
+        }
+
+        public static void EmailConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            var emailConfiguration = configuration.GetSection("EmailConfiguration").Get<EmailConfig>();
+            services.AddSingleton(emailConfiguration);
+            services.AddScoped<IEmailEmitter, EmailEmitter>();
         }
     }
 }

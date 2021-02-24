@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlaces", "MyPlaces\MyPlac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlacesTests", "MyPlacesTests\MyPlacesTests.csproj", "{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{566874BB-0F7D-4646-93FE-3591E02390DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{566874BB-0F7D-4646-93FE-3591E02390DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{057B2639-6D02-4B51-BAD1-38CD8688D2F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{057B2639-6D02-4B51-BAD1-38CD8688D2F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{057B2639-6D02-4B51-BAD1-38CD8688D2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{057B2639-6D02-4B51-BAD1-38CD8688D2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{057B2639-6D02-4B51-BAD1-38CD8688D2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
