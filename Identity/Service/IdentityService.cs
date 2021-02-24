@@ -1,33 +1,30 @@
-﻿using Identity.Response;
-using Microsoft.AspNetCore.Identity;
-using Entities.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Entities.Model;
 using Identity.Requests;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
+using Identity.Response;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Identity.Service
 {
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationContext _applicationContext;
         private readonly IConfiguration _configuration;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, ApplicationContext applicationContext, IConfiguration configuration)
+        public IdentityService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
-            _applicationContext = applicationContext;
             _configuration = configuration;
         }
 
-    
+
         public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest registrationRequest)
         {
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(registrationRequest.Email);
@@ -36,7 +33,7 @@ namespace Identity.Service
                 return new RegistrationResponse
                 {
                     Success = false,
-                    Errors = new[] { $"Users with email {registrationRequest.Email} already exists"  }
+                    Errors = new[] { $"Users with email {registrationRequest.Email} already exists" }
                 };
             }
 
@@ -52,7 +49,7 @@ namespace Identity.Service
             {
                 return new RegistrationResponse
                 {
-                    Errors = createdUser.Errors.Select(e=>e.Description)
+                    Errors = createdUser.Errors.Select(e => e.Description)
                 };
             }
 
@@ -66,7 +63,7 @@ namespace Identity.Service
         public async Task<RegistrationResponse> LoginAsync(LoginRequest loginRequest)
         {
             ApplicationUser user = await _userManager.FindByEmailAsync(loginRequest.Email);
-            if(user == null)
+            if (user == null)
             {
                 return new RegistrationResponse
                 {
@@ -76,19 +73,20 @@ namespace Identity.Service
             }
 
             var result = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
-            
+
             if (!result)
             {
                 return new RegistrationResponse
                 {
-                    Errors = new[] {"Invalid password"},
+                    Errors = new[] { "Invalid password" },
                     Success = false
                 };
             }
 
             var claims = new[]
             {
-                new Claim("Email", loginRequest.Email)
+                new Claim("Email", loginRequest.Email),
+                new Claim("RegisteredUser", "true")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authenticate:key"]));

@@ -58,6 +58,11 @@ namespace MyPlaces.Installers.ServicesExtensions
                     ValidateIssuerSigningKey = true
                 };
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RegisteredUser", 
+                    builder => builder.RequireClaim("RegisteredUser", "true"));
+            });
         }
 
         public static void AddIdentity(this IServiceCollection services)
@@ -91,7 +96,7 @@ namespace MyPlaces.Installers.ServicesExtensions
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyPlaces", Version = "v1" });
                 var security = new Dictionary<string, IEnumerable<string>>
                 {
-                    {"Bearer", new string[0] }
+                    {"Bearer", Array.Empty<string>() }
                 };
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

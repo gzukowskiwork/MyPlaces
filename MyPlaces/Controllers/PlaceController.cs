@@ -28,16 +28,23 @@ namespace MyPlaces.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPLaces()
         {
-            IEnumerable<Place> places = await _placeRepository.GetAllPlaces();
+            try
+            {
+                IEnumerable<Place> places = await _placeRepository.GetAllPlaces();
 
-            if (places != null)
-            {
-                //var placeResult = _mapper.Map<PlaceWithoutId>(places);
-                return Ok(places);
+                if (places != null)
+                {
+                    //var placeResult = _mapper.Map<PlaceWithoutId>(places);
+                    return Ok(places);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch(Exception e)
             {
-                return NotFound();
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -48,7 +55,7 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                return await getPlaceByID(id);
+                return await GetPlaceByIdLogic(id);
             }
             catch (Exception e)
             {
@@ -56,8 +63,9 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private async Task<IActionResult> getPlaceByID(int id)
+        private async Task<IActionResult> GetPlaceByIdLogic(int id)
         {
+
             var place = await _placeRepository.GetPlaceById(id);
 
             if (place == null)
@@ -76,7 +84,7 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                return await createPlace(place);
+                return await CreatePlaceLogic(place);
             }
             catch (Exception e)
             {
@@ -84,7 +92,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private async Task<IActionResult> createPlace(PlaceWithoutId place)
+        private async Task<IActionResult> CreatePlaceLogic(PlaceWithoutId place)
         {
             if (place == null)
             {
@@ -108,7 +116,7 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                return await updatePlace(id, place);
+                return await UpdatePlaceLogic(id, place);
             }
             catch (Exception e)
             {
@@ -116,7 +124,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private async Task<IActionResult> updatePlace(int id, PlaceWithoutId place)
+        private async Task<IActionResult> UpdatePlaceLogic(int id, PlaceWithoutId place)
         {
             if (place == null)
             {
@@ -147,7 +155,7 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                return await delete(id);
+                return await DeletePlaceLogic(id);
             }
             catch (Exception e)
             {
@@ -155,7 +163,7 @@ namespace MyPlaces.Controllers
             }
         }
 
-        private async Task<IActionResult> delete(int id)
+        private async Task<IActionResult> DeletePlaceLogic(int id)
         {
             var place = await _placeRepository.GetPlaceById(id);
             if (place == null)

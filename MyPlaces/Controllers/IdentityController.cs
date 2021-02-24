@@ -1,4 +1,5 @@
-﻿using Identity.Requests;
+﻿using EmailService;
+using Identity.Requests;
 using Identity.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ namespace MyPlaces.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
-        private IIdentityService _identityService { get; set; }
+        private readonly IIdentityService _identityService;
+        private readonly IEmailEmitter _emailEmitter;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IIdentityService identityService, IEmailEmitter emailEmitter)
         {
             _identityService = identityService;
+            _emailEmitter = emailEmitter;
         }
 
         [HttpPost("Register")]
@@ -29,9 +32,11 @@ namespace MyPlaces.Controllers
             }
             
             var result = await _identityService.RegisterUserAsync(registrationRequest);
-            if(result.Success)
+            if (result.Success)
+            {
+                await _emailEmitter.SendMailAsync(new Email(registrationRequest.Email, "Woelcome", "dupa dupa dupa"));
                 return StatusCode(200);
-
+            }
             return BadRequest();
         }
 

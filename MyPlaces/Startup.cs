@@ -1,22 +1,11 @@
 using AutoMapper;
-using Entities.Model;
-using Entities.Model.Repository;
-using Identity.Service;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using MyPlaces.Installers.Services;
 using MyPlaces.Installers.ServicesExtensions;
 using Serilog;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyPlaces
 {
