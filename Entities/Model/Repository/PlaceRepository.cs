@@ -20,6 +20,14 @@ namespace Entities.Model.Repository
             return await _applicationContext.Places.ToListAsync();
         }
 
+        public async Task<PagedList<Place>> GetAllPlacesPagination(PlaceParmeters placeParmeters)
+        {
+            return await PagedList<Place>.ToPagedList(
+                _applicationContext.Places.OrderBy(x=>x.Name)
+                , placeParmeters.PageNumber
+                , placeParmeters.PageSize);
+        }
+
         public async Task<Place> GetPlaceById(int id)
         {
             return await _applicationContext.Places.Where(p => p.Id == id).FirstOrDefaultAsync();

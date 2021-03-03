@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Entities.Model;
 using Entities.Model.DTO;
 using Entities.Model.Repository;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MyPlaces.Controllers
 {
@@ -24,31 +22,48 @@ namespace MyPlaces.Controllers
             _mapper = mapper;
         }
 
-        
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllPlaces()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<Place> places = await _placeRepository.GetAllPlaces();
+
+        //        if (places != null)
+        //        {
+        //            //var placeResult = _mapper.Map<PlaceWithoutId>(places);
+        //            return Ok(places);
+        //        }
+        //        return NotFound();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
+
+
         [HttpGet]
-        public async Task<IActionResult> GetAllPLaces()
+        public async Task<IActionResult> GetAllPLacesPaginated([FromQuery] PlaceParmeters placeParmeters)
         {
             try
             {
-                IEnumerable<Place> places = await _placeRepository.GetAllPlaces();
+                IEnumerable<Place> places = await _placeRepository.GetAllPlacesPagination(placeParmeters);
 
                 if (places != null)
                 {
                     //var placeResult = _mapper.Map<PlaceWithoutId>(places);
                     return Ok(places);
                 }
-                else
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
         }
 
-        
+
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetPlaceDetails(int id)
