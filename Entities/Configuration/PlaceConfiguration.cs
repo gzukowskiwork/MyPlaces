@@ -14,8 +14,8 @@ namespace Entities.Configuration
                     Id = 1,
                     Name = "Koloseum",
                     Description = "Spodziewałem się czegoś więcej",
-                    Latidude = 41.89024,
-                    Longtidude = 12.49237,
+                    Latitude = 41.89024,
+                    Longitude = 12.49237,
                     PathToImage = ""
                 },
                 new Place()
@@ -23,8 +23,8 @@ namespace Entities.Configuration
                     Id = 2,
                     Name = "Torre di Chia",
                     Description = "Urokliwe miejsce",
-                    Latidude = 38.89533,
-                    Longtidude = 8.88511,
+                    Latitude = 38.89533,
+                    Longitude = 8.88511,
                     PathToImage = ""
                 });
         }

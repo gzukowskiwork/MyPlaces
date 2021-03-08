@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Entities.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -162,8 +162,8 @@ namespace Entities.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Longtidude = table.Column<double>(type: "float", nullable: false),
-                    Latidude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
                     PathToImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -180,12 +180,12 @@ namespace Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Places",
-                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage", "UserId" },
+                columns: new[] { "Id", "Description", "Latitude", "Longitude", "Name", "PathToImage", "UserId" },
                 values: new object[] { 1, "Spodziewałem się czegoś więcej", 41.890239999999999, 12.492369999999999, "Koloseum", "", null });
 
             migrationBuilder.InsertData(
                 table: "Places",
-                columns: new[] { "Id", "Description", "Latidude", "Longtidude", "Name", "PathToImage", "UserId" },
+                columns: new[] { "Id", "Description", "Latitude", "Longitude", "Name", "PathToImage", "UserId" },
                 values: new object[] { 2, "Urokliwe miejsce", 38.895330000000001, 8.8851099999999992, "Torre di Chia", "", null });
 
             migrationBuilder.CreateIndex(

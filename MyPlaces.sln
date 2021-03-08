@@ -5,13 +5,11 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlaces", "MyPlaces\MyPlaces.csproj", "{2296901A-191D-41D3-9DAD-6EBA13CAB219}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlacesTests", "MyPlacesTests\MyPlacesTests.csproj", "{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{566874BB-0F7D-4646-93FE-3591E02390DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{057B2639-6D02-4B51-BAD1-38CD8688D2F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService", "EmailService\EmailService.csproj", "{B83887B6-44EF-4FCB-BEDE-12BB4755DEF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{2296901A-191D-41D3-9DAD-6EBA13CAB219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2296901A-191D-41D3-9DAD-6EBA13CAB219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2296901A-191D-41D3-9DAD-6EBA13CAB219}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36C8219E-5E43-4C34-A6DE-26CF1CC49EA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{566874BB-0F7D-4646-93FE-3591E02390DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{566874BB-0F7D-4646-93FE-3591E02390DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{566874BB-0F7D-4646-93FE-3591E02390DC}.Release|Any CPU.ActiveCfg = Release|Any CPU

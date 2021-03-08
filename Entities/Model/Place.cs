@@ -16,9 +16,9 @@ namespace Entities.Model
         [Required]
         public string Description { get; set; }
         [Required]
-        public double Longtidude { get; set; }
+        public double Longitude { get; set; }
         [Required]
-        public double Latidude { get; set; }
+        public double Latitude { get; set; }
         public string PathToImage { get; set; }
 
         [ForeignKey(nameof(ApplicationUser))]

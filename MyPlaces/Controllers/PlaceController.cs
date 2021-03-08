@@ -3,6 +3,7 @@ using Entities.Model;
 using Entities.Model.DTO;
 using Entities.Model.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -48,7 +49,19 @@ namespace MyPlaces.Controllers
         {
             try
             {
-                IEnumerable<Place> places = await _placeRepository.GetAllPlacesPagination(placeParmeters);
+                PagedList<Place> places = await _placeRepository.GetAllPlacesPagination(placeParmeters);
+
+                var metadata = new
+                {
+                    places.TotalCount,
+                    places.PageSize,
+                    places.CurrentPage,
+                    places.TotalPages,
+                    places.HasNext,
+                    places.HasPrevious
+                };
+
+                Response.Headers.Add("dupa", JsonConvert.SerializeObject(metadata));
 
                 if (places != null)
                 {
@@ -101,7 +114,7 @@ namespace MyPlaces.Controllers
             {
                 return await CreatePlaceLogic(place);
             }
-            catch (Exception e)
+             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
